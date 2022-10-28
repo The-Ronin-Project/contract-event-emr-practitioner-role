@@ -1,0 +1,102 @@
+{
+  "create": {
+    "id": "h387afy7-40D5-ABE1-59813DF5FAB2",
+    "fhirId": "40D5-ABE1-59813DF5FAB2",
+    "tenantId": "h387afy7",
+    "resourceVersion": "2022090912432146",
+    "active": true,
+    "period": {
+      "start": "2018",
+      "end": "2025"
+    },
+    "practitioner": {
+      "reference": "RoninPractitioner/h387afy7-D7C8-4B2C-AF9B-738F10807850",
+      "resource": {
+        "type": "RoninPractitioner",
+        "id": "h387afy7-D7C8-4B2C-AF9B-738F10807850"
+      }
+    },
+    "organization": {
+      "reference": "RoninOrganization/h387afy7-4CEC-A5CF-DD8135201C4A",
+      "resource": {
+        "type": "RoninOrganization",
+        "id": "h387afy7-4CEC-A5CF-DD8135201C4A"
+      }
+    },
+    "code": [
+      {
+        "coding": [
+          {
+            "system": "http://nucc.org/provider-taxonomy",
+            "code": "207ZC0006X",
+            "display": "Clinical pathology specialist"
+          }
+        ]
+      }  
+    ],
+    "specialty": [
+      {
+        "coding": [
+          {
+            "system": "http://nucc.org/provider-taxonomy",
+            "code": "163WX0200X",
+            "display": "Nursing Service Providers; Registered Nurse, Oncology"
+          }
+        ]
+      }
+    ],
+    "location": [
+      {
+        "reference": "RoninLocation/h387afy7-496A-85B2-220F87BA1627",
+        "resource": {
+          "type": "RoninLocation",
+          "id": "h387afy7-496A-85B2-220F87BA1627"
+        }
+      }
+    ],
+    "healthCareService": [
+      {
+        "reference": "HealthcareService/h387afy7-45F9-A9A2-579F27C0FDDB"
+      }
+    ],
+    "telecom": [
+      {
+        "system": "phone",
+        "originalSystem": {
+          "system": "http://telecomSystem/localCodeSystem",
+          "code": "phone"
+        },
+        "use": "work",
+        "originalUse": {
+          "system": "http://telecomUse/localCodeSystem",
+          "code": "work"
+        }
+      }
+    ],
+    "availableTime": [
+      {
+        "daysofWeek": ["mon", "tue"],
+        "allDay": false,
+        "availableStartTime": "08:00:00",
+        "availableEndTime": "16:00:00"
+      },
+      {
+        "daysofWeek": ["wed", "thur"],
+        "allDay": false,
+        "availableStartTime": "08:00:00",
+        "availableEndTime": "18:00:00"
+      }
+    ],
+    "notAvailable": [
+      {
+        "description": "Vacation",
+        "during": {
+          "start": "2022-10-07T08:00:00Z",
+          "end": "2022-10-10T00:00:00Z"
+        }
+      }
+    ],
+    "createdAt": "2022-09-13T12:14:15",
+    "updatedAt": "2022-09-21T21:07:35"
+    }
+}
