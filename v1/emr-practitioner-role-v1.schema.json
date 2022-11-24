@@ -116,6 +116,24 @@
         }
       }
     },
+    "identifier": {
+      "type": "object",
+      "properties": {
+        "use": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/codeableConcept"
+        },
+        "system": {
+          "type": "string",
+          "format": "uri"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
     "roninContactPoint": {
       "type": "object",
       "properties": {
@@ -294,7 +312,6 @@
         "id", 
         "tenantId", 
         "resourceVersion", 
-        "subObject", 
         "createdAt"
       ]
     }

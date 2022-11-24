@@ -70,7 +70,8 @@
         "originalUse": {
           "system": "http://telecomUse/localCodeSystem",
           "code": "work"
-        }
+        },
+        "value": "206-867-5309"
       }
     ],
     "availableTime": [
