@@ -312,7 +312,8 @@
         "id", 
         "tenantId", 
         "resourceVersion", 
-        "createdAt"
+        "createdAt",
+        "updatedAt"
       ]
     }
   }
