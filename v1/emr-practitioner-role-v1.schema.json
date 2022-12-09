@@ -1,0 +1,321 @@
+{
+  "$id": "https://github.com/projectronin/emr-practitioner-role/blob/main/v1/emr-practitioner-role-v1.schema.json",
+  "title": "EMR Practitioner Role",
+  "description": "This is the role a practioner assumes",
+  "type": "object",
+  "properties": {
+    "create" : {
+      "description": "This represents a create event.",
+      "$ref": "#/$defs/practitionerRole"
+    },
+    "update": {
+      "description": "This represents an update event",
+      "$ref": "#/$defs/practitionerRole"
+    },
+    "delete": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The primary identifier of the resource"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID"
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time when the resource was deleted"
+        }
+      },
+      "required": ["id", "tenantId", "deletedAt"]
+    }
+  },
+  "$defs":  {
+    "resourceReference": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "type": "object",
+          "description": "When this exists, it represents a reference to an actual resource. This is derived from the data specified in `reference`.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "This is the ronin resource type"
+            },
+            "id": {
+              "type": "string",
+              "description": "This is the ronin ID for the resource"
+            }
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "The FHIR type attribute of the resource"
+        },
+        "reference": {
+          "type": "string",
+          "format": "uri-template",
+          "description": "This should refer to a `resource.type/resource.id` but could refer to an external resource"
+        },
+        "identifier": {
+          "$ref": "#/$defs/identifier"
+        },
+        "display": {
+          "type": "string"
+        }
+      }
+    },
+    "period": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string"
+        },
+        "end": {
+          "type": "string"
+        }
+      }
+    },
+    "coding": {
+      "type": "object",
+      "description": "This defines the required attributed for a FHIR code",
+      "properties": {
+        "system": {
+          "description": "The coding system that defines what the code represents",
+          "type": "string"
+        },
+        "code": {
+          "description": "The specific code determined by the system that specifies the value.",
+          "type": "string"
+        },
+        "display": {
+          "description": "The human readable value for the code",
+          "type": "string"
+        },
+        "version": {
+          "description": "The specific version of the system where the code is defined",
+          "type": "string"
+        }
+      }
+    },
+    "codeableConcept": {
+      "type":"object",
+      "description": "This is a CodeableConcept with an extracted emrText attribute that dictates the correct value to represent in an EMR context.",
+      "properties": {
+        "emrText": {
+          "type": "string"
+        },
+        "coding": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coding"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "identifier": {
+      "type": "object",
+      "properties": {
+        "use": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/codeableConcept"
+        },
+        "system": {
+          "type": "string",
+          "format": "uri"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "roninContactPoint": {
+      "type": "object",
+      "properties": {
+        "system": {
+          "type": "string",
+          "description": "Normalized system"
+        },
+        "originalSystem": {
+          "$ref": "#/$defs/coding",
+          "description": "Original system value from the EMR"
+        },
+        "value": {
+          "type": "string",
+          "description": "The actual phone number or email address"
+        },
+        "use": {
+          "type": "string",
+          "description": "Normalized use"
+        },
+        "originalUse": {
+          "$ref": "#/$defs/coding",
+          "description": "Original use value from the EMR"
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The preferred order of use"
+        },
+        "period": {
+          "$ref": "#/$defs/period",
+          "description": "Time period when the contact was in use."
+        }
+      },
+      "required": ["value"]
+    },
+    "practitionerRole": {
+      "type": "object",
+      "description": "The resource representation",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID"
+        },
+        "fhirId": {
+          "type": "string",
+          "description": "The FHIR ID"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "The tenant ID"
+        },
+        "resourceVersion": {
+          "type": "string",
+          "description": "A monotonically incrementing version used for ordering representations"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether this role is in active use"
+        },
+        "period": {
+          "$ref": "#/$defs/period",
+          "description": "The period during which the practitioner is authorized to perform in these role(s)"
+        },
+        "practitioner": {
+          "$ref": "#/$defs/resourceReference",
+          "description": "Practitioner that is able to provide the defined services for the organization"
+        },
+        "organization": {
+          "$ref": "#/$defs/resourceReference",
+          "description": "Organization where the roles are available"
+        },
+        "code": {
+          "type": "array",
+          "description": "Roles which this practitioner may perform",
+          "items": {
+            "$ref": "#/$defs/codeableConcept"
+          }
+        },
+        "specialty": {
+          "type": "array",
+          "description": "Specific specialty of the practitioner",
+          "items": {
+            "$ref": "#/$defs/codeableConcept"
+          }
+        },
+        "location": {
+          "type": "array",
+          "description": "The location(s) at which this practitioner provides care",
+          "items": {
+            "$ref": "#/$defs/resourceReference"
+          }
+        },
+        "healthCareService": {
+          "type": "array",
+          "description": "The list of healthcare services that this worker provides for this role's Organization/Location(s)",
+          "items": {
+            "$ref": "#/$defs/resourceReference"
+          }
+        },
+        "telecom": {
+          "type": "array",
+          "description": "Contact details that are specific to the role/location/service",
+          "items": {
+            "$ref": "#/$defs/roninContactPoint"
+          }
+        },
+        "availableTime": {
+          "type": "array",
+          "description": "Times the Service Site is available",
+          "items": {
+            "type": "object",          
+            "properties": {
+              "daysOfWeek": {
+                "type": "array",
+                "description": "Indicates which days of the week are available between the start and end Times.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "allDay": {
+                "type": "boolean",
+                "description": "Always available? e.g. 24 hour service"
+              },
+              "availableStartTime": {
+                "type": "string",
+                "description": "Opening time of day (ignored if allDay = true)"
+              },
+              "availableEndTime": {
+                "type": "string",
+                "description": "Closing time of day (ignored if allDay = true)"
+              }
+            }
+          }
+        },
+        "notAvailable": {
+          "type": "array",
+          "description": "Not available during this time due to provided reason",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "Reason presented to the user explaining why time not available"
+              },
+              "during": {
+                "$ref": "#/$defs/period",
+                "description": "Service not available from this date"
+              }
+            },
+            "required": ["description"]
+          }
+        },
+        "availabilityExceptions": {
+          "type": "string",
+          "description": "Description of availability exceptions"
+        },
+        "endpoint": {
+          "type": "array",
+          "description": "Technical endpoints providing access to services operated for the practitioner with this role",
+          "items": {
+            "$ref": "#/$defs/resourceReference"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When was the resource created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When was the resource last updated"
+        }
+      },
+      "required": [
+        "id",
+        "fhirId",
+        "tenantId", 
+        "resourceVersion", 
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  }
+}
